@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deli's First VR panorama</title>
+        <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    </head>
+    <body>
+        <a-scene inspector="https://unpkg.com/aframe-inspector@0.8.x/dist/aframe-inspector.min.js">
+            <!--a-sky src="img/lemnos-sky-4000.jpg" rotation="0 -130 0" color="#ccc"></a-sky-->
+            <a-assets>
+                <img id="lemnos" src="img/lemnos-sky-4000.jpg">
+                <img id="lemnos-pano" src="img/lemnos-panorama.jpg">
+            </a-assets>
+            <a-sky src="#lemnos" rotation="0 -130 0"></a-sky>   
+            <!--a-cylinder position="1.5 0.6 -3.8" radius="0.5" height="1.2" color="#FFC65D" shadow></a-cylinder-->
+            <a-entity position="1.5 0.8 -2.8" geometry="primitive: cylinder; openEnded: true; radius: 1. 5; height: 0.5;" material="side: double; color: #FFF; metalness: 0.1; opacity: 1; src: #lemnos-pano;"></a-entity>
+        </a-scene>
+    </body>
+</html>
