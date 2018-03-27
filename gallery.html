@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deli's VR 360 Image Gallery</title>
+        <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    </head>
+    <body>
+        <a-scene inspector="https://unpkg.com/aframe-inspector@0.8.x/dist/aframe-inspector.min.js">
+            <a-assets>
+                <img id="lemnos" src="img/lemnos-sky-4000.jpg">
+                <img id="lemnos-thumb" src="img/lemnos-thumb.jpg">
+                <img id="morro" src="img/morrorock-sky.jpg">
+                <img id="morro-thumb" src="img/morrorock-thumb.jpg">
+                <img id="tiburon" src="img/tiburon-sky.jpg">
+                <img id="tiburon-thumb" src="img/tiburon-thumb.jpg">
+            </a-assets>
+            <a-sky src="#morro" rotation="0 -130 0" color="#009900"></a-sky>
+            <a-entity id="ball1" position="-0.6 1.5 -2.5" geometry="primitive: sphere; radius: 0.25" material="src: #morro-thumb;"></a-entity>
+            <a-entity id="ball2" position="0 1.5 -2.5" geometry="primitive: sphere; radius: 0.25" material="src: #lemnos-thumb;"></a-entity>
+            <a-entity id="ball3" position="0.6 1.5 -2.5" geometry="primitive: sphere; radius: 0.25" material="src: #tiburon-thumb;"></a-entity>
+        </a-scene>
+    </body>
+</html>
