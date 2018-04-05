@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tracked Controls reworked with balls</title>
+        <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+        <script src="components/aabb-collider.js"></script>
+        <script src="components/grab.js"></script>
+        <script src="https://unpkg.com/aframe-event-set-component@4.1.1/dist/aframe-event-set-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-animation-component@4.0.0/dist/aframe-animation-component.min.js"></script>
+    </head>
+    <body>
+        <script>
+        AFRAME.registerComponent('set-sky', {
+          schema: {default: ''},
+          init() {
+            const sky = document.querySelector('a-sky');
+            this.el.addEventListener('click', () => {
+                sky.setAttribute('src', this.data);
+                sky.setAttribute('color', '#FFFFFF');
+            });
+            /*this.el.addEventListener('tick', () => {
+                sky.setAttribute('src', this.data);
+                sky.setAttribute('color', '#FFFFFF');
+            });*/
+          }
+        });
+        </script>
+      <a-scene cursor="rayOrigin: mouse" inspector="https://unpkg.com/aframe-inspector@0.8.x/dist/aframe-inspector.min.js">
+      <a-assets>
+        <a-mixin id="ball" 
+                geometry="primitive: sphere; radius: 0.13" 
+                scale="1 1 1" 
+                material="color: #999999; opacity: 0.6;" ></a-mixin>
+        <a-mixin id="color" 
+                event-set__grab="material.color: #00FF00"
+                event-set__grabend="material.color: #00FF00"
+                event-set__hit="material.color: #FF0000"
+                event-set__hitend="material.color: #CC0000"
+                event-set__mousedown="material.color: #00FFFF"
+                event-set__mouseenter="material.color: #0000FF"
+                event-set__mouseleave="material.color: #000099"
+                event-set__mouseup="material.color: #0000FF" 
+                animation__fadein="property: material.opacity; from: 1; to: 0.6; dur: 100; 
+                           startEvents: grabend, mouseleave, mouseup, hitend;"
+                animation__fadeout="property: material.opacity; from: 0.6; to: 1; dur: 100; 
+                           startEvents: grab, mouseenter, mousedown, hit;"></a-mixin>
+          <a-mixin id="world" 
+                material="color: #FFFFFF; opacity: 1;" 
+                animation__rotate="property: rotation; dur: 10000;
+                           easing: linear; loop: true; to: 0 360 0;" 
+                animation__scalein="property: scale; dur: 300; to: 1.1 1.1 1.1; 
+                                  startEvents: grab, mouseenter, mousedown, hit;" 
+                animation__scaleout="property: scale; dur: 300; to: 1 1 1; 
+                                  startEvents: grabend, mouseleave, mouseup, hitend;"></a-mixin>
+          <a-mixin id="label"
+                   geometry="primitive: plane; width: 0.5; height: auto;" 
+                   material="color: #FFF; opacity: 0.55;" 
+                   position="0.2 0.1 0.26" 
+                   text="font: roboto; value: Label; color: #FFF; align: center; width: 2"></a-mixin>
+        <img id="lemnos" src="img/lemnos-sky-4000.jpg">
+        <img id="lemnos-thumb" src="img/lemnos-thumb.jpg">
+        <img id="morro" src="img/morrorock-sky.jpg">
+        <img id="morro-thumb" src="img/morrorock-thumb.jpg">
+        <img id="tiburon" src="img/tiburon-sky.jpg">
+        <img id="tiburon-thumb" src="img/tiburon-thumb.jpg">
+      </a-assets>
+          
+      <!-- balls -->
+          <!-- TBD: why do we need the parent entity? for positioning of all elements together? -->
+      <a-entity position="0 0 -0.5">
+          <!-- TBD: why do we need class="cube" ? for aabb-collider - to be able to move them-->
+        <a-entity class="cube" mixin="ball color" position="0.60 1.35 0">
+          <a-entity mixin="label" text="value: This is a ball"></a-entity>
+        </a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.60 1.05 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.60 0.75 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.60 0.45 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.60 0.15 0"></a-entity>
+          
+        <a-entity class="ball" mixin="ball color" position="0.30 1.35 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.30 1.05 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.30 0.75 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.30 0.45 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.30 0.15 0"></a-entity>
+          
+        <!--a-entity class="ball" mixin="ball color" position="0.0 1.35 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.0 1.05 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.0 0.75 0"></a-entity-->
+        <a-entity class="ball" mixin="ball color" position="0.0 0.45 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="0.0 0.15 0"></a-entity>
+
+        <a-entity class="ball" mixin="ball color" position="-0.30 1.35 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.30 1.05 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.30 0.75 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.30 0.45 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.30 0.15 0"></a-entity>
+          
+        <a-entity class="ball" mixin="ball color" position="-0.60 1.35 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.60 1.05 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.60 0.75 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.60 0.45 0"></a-entity>
+        <a-entity class="ball" mixin="ball color" position="-0.60 0.15 0"></a-entity>
+
+        <a-entity class="ball" mixin="ball world" position="0.0 1.35 0" material="src: #lemnos-thumb;" set-sky="#lemnos">
+          <a-entity mixin="label" text="value: Lemnos"></a-entity>
+        </a-entity>
+        <a-entity class="ball" mixin="ball world" position="0.0 1.05 0" material="src: #tiburon-thumb;" set-sky="#tiburon">
+          <a-entity mixin="label" text="value: Tiburon"></a-entity>
+        </a-entity>
+        <a-entity class="ball" mixin="ball world" position="0.0 0.75 0" material="src: #morro-thumb;" set-sky="#morro">
+          <a-entity mixin="label" text="value: Morro"></a-entity>
+        </a-entity>
+
+        <!-- Environment -->
+         <a-sky src="" color="#003300"></a-sky>
+         <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
+         <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
+         <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
+      </a-entity>
+          
+      <!-- Hands -->
+      <a-entity hand-controls="left" aabb-collider="objects: .ball;" grab></a-entity>
+      <a-entity hand-controls="right" aabb-collider="objects: .ball;" grab></a-entity>
+      <a-entity position="0 1.6 2" camera look-controls wasd-controls></a-entity>
+    </a-scene>
+    </body>
+</html>
