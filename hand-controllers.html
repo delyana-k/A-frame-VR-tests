@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deli's VR Hand Controllers Example</title>
+        <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script>
+      /*AFRAME.registerComponent('change-color', {
+        schema: {
+          color: {default: 'red'}
+        },
+
+        init: function () {
+          var data = this.data;
+          var el = this.el;  // <a-box>
+          var defaultColor = el.getAttribute('material').color;
+
+          el.addEventListener('triggerdown', function () {
+            el.setAttribute('color', '#FF9900');
+            console.log('trigger down');
+          });
+
+          el.addEventListener('gripdown', function () {
+            el.setAttribute('color', 'red');
+            console.log('grip down');
+          });
+        }
+      });*/
+      AFRAME.registerComponent('log', {
+          schema: {type: 'string'},
+
+          init: function () {
+            var stringToLog = this.data;
+            console.log(stringToLog);
+          }
+        });
+      AFRAME.registerComponent('x-button-listener', {
+        init: function () {
+            var el = this.el;
+            
+            var ball = document.getElementById('ball');
+            var cyl = document.querySelector('#cyl');
+            var box = document.getElementById('box');
+            
+            el.addEventListener('trackpaddown', function (evt) {
+              //el.setAttribute('visible', !el.getAttribute('visible'));
+              
+              //ball.setAttribute('material', {color: '#EF2D5E'});
+              ball.setAttribute('material', 'color', '#EF2D5E');
+              console.log('trackpad down');
+            });
+            el.addEventListener('triggerdown', function (evt) {
+              box.setAttribute('color', '#999999');
+              console.log('trigger down');
+            });
+            el.addEventListener('gripdown', function (evt) {
+              cyl.setAttribute('color', '#999999');
+              console.log('grip down');
+            });
+        }
+      });
+    </script>
+    </head>
+    <body>
+      <a-scene>
+        <a-box id="box" color="#EF2D5E" position="0 1 -4" change-color="color: blue"></a-box>
+        <a-cylinder id="cyl" position="1.5 0.6 -2.8" radius="0.5" height="1.2" color="#FFC65D"></a-cylinder>
+        <a-entity id="ball" geometry="primitive: sphere; radius: 0.13" 
+                scale="1 1 1" material="color: #999999;"  position="0 0.5 -2"></a-entity>
+          
+        <a-sky color="#8FF7FF"></a-sky>
+          
+        <a-entity vive-controls x-button-listener></a-entity>
+          
+        <a-entity id="leftHand" hand-controls="left"></a-entity>
+        <a-entity id="rightHand" hand-controls="right"></a-entity>
+          
+        <a-camera position="0 1.8 -0.5"></a-camera>
+      </a-scene>
+    </body>
+</html>
