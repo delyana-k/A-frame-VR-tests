@@ -68,8 +68,9 @@
                 scale="1 1 1" material="color: #999999;"  position="0 0.5 -2"></a-entity>
           
         <a-sky color="#8FF7FF"></a-sky>
-          
-        <a-entity vive-controls x-button-listener></a-entity>
+        
+        <!-- vive control entity for the right controller; default is left -->
+        <a-entity vive-controls x-button-listener hand-controls="right"></a-entity>
           
         <a-entity id="leftHand" hand-controls="left"></a-entity>
         <a-entity id="rightHand" hand-controls="right"></a-entity>
