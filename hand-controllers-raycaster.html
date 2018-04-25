@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deli's VR Hand Controllers + Raycasters</title>
+        <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+        <script>
+        AFRAME.registerComponent('log', {
+          schema: {type: 'string'},
+
+          init: function () {
+            var stringToLog = this.data;
+            console.log(stringToLog);
+          }
+        });
+        AFRAME.registerComponent('left-button-listener', {
+          init: function () {
+            var el = this.el;
+
+            var ball = document.getElementById('ball');
+            var cyl = document.querySelector('#cyl');
+            var box = document.getElementById('box');
+
+            el.addEventListener('trackpaddown', function (evt) {
+              ball.setAttribute('material', 'color', '#990099');
+              console.log('trackpad down');
+            });
+            el.addEventListener('gripdown', function (evt) {
+              box.setAttribute('color', '#EF2D5E');
+              console.log('trigger down');
+            });
+            el.addEventListener('gripdown', function (evt) {
+              cyl.setAttribute('color', '#FFC65D');
+              console.log('grip down');
+            });
+          }
+        });
+        AFRAME.registerComponent('right-button-listener', {
+          init: function () {
+            var el = this.el;
+
+            var ball = document.getElementById('ball');
+            var cyl = document.querySelector('#cyl');
+            var box = document.getElementById('box');
+
+            el.addEventListener('trackpaddown', function (evt) {
+              ball.setAttribute('material', 'color', '#999999');
+              console.log('trackpad down');
+            });
+            el.addEventListener('gripdown', function (evt) {
+              box.setAttribute('color', '#999999');
+              console.log('trigger down');
+            });
+            el.addEventListener('gripdown', function (evt) {
+              cyl.setAttribute('color', '#999999');
+              console.log('grip down');
+            });
+          }
+        });
+        AFRAME.registerComponent('collider-check', {
+          dependencies: ['raycaster'],
+
+          init: function () {
+            this.el.addEventListener('raycaster-intersected', function () {
+              console.log('Player hit something!');
+            });
+          }
+        });
+        AFRAME.registerComponent('set-sky', {
+          schema: {default: ''},
+          init() {
+            const sky = document.querySelector('a-sky');
+            this.el.addEventListener('click', () => {
+                sky.setAttribute('src', this.data);
+                sky.setAttribute('color', '#FFFFFF');
+            });
+          }
+        });
+        </script>
+    </head>
+    
+    <body>
+      <a-scene inspector="https://unpkg.com/aframe-inspector@0.8.x/dist/aframe-inspector.min.js">
+        <a-assets>
+            <img id="lemnos" src="img/lemnos-sky-4000.jpg">
+            <img id="lemnos-thumb" src="img/lemnos-thumb.jpg">
+            <img id="morro" src="img/morrorock-sky.jpg">
+            <img id="morro-thumb" src="img/morrorock-thumb.jpg">
+            <img id="tiburon" src="img/tiburon-sky.jpg">
+            <img id="tiburon-thumb" src="img/tiburon-thumb.jpg">
+        </a-assets>
+        
+        <!-- primitives --> 
+        <a-box id="box" class="ray" color="#EF2D5E" position="0 1 -4"
+                      set-sky="#lemnos"></a-box>
+        <a-cylinder id="cyl" class="ray" position="1.5 0.6 -2.8" radius="0.5" height="1.2" color="#FFC65D"
+                      set-sky="#morro"></a-cylinder>
+        <a-entity id="ball" geometry="primitive: sphere; radius: 0.13" 
+                scale="1 1 1" material="color: #990099;"  position="0 0.5 -2"
+                      set-sky="#tiburon"></a-entity>
+        <a-sky color="#8FF7FF"></a-sky>
+        
+        <!-- raycasters -->
+        <a-entity id="player" collider-check>
+            <a-entity laser-controls="hand: right"  position="0.1 1.2 -0.5" raycaster="objects: .ray; far: 5" line="color: red; opacity: 0.75"></a-entity>
+            <a-entity laser-controls="hand: left" position="-0.1 1.2 -0.5" raycaster="objects: .ray; far: 5" line="color: blue; opacity: 0.75"></a-entity>
+        </a-entity>
+        
+        <!-- vive control entities; default is left controller -->
+        <a-entity vive-controls left-button-listener hand-controls="left"></a-entity>
+        <a-entity vive-controls right-button-listener hand-controls="right"></a-entity>
+        
+        <!-- visualization of hands -->
+        <a-entity id="leftHand" hand-controls="left"></a-entity>
+        <a-entity id="rightHand" hand-controls="right"></a-entity>
+          
+        <a-camera position="0 1.8 -0.5"></a-camera>
+      </a-scene>
+    </body>
+</html>
