@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deli's VR Flat Website</title>
+        <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    </head>
+    <body>
+        <script>
+            
+        </script>
+        <a-scene inspector="https://unpkg.com/aframe-inspector@0.8.x/dist/aframe-inspector.min.js">
+            
+            <a-assets>
+                
+                <a-mixin id="cwall" 
+                geometry="height: 2; primitive: cylinder; radius: 5; segmentsRadial: 48; 
+                          theta-start: 0; thetaLength: -30; openEnded: true" 
+                scale="0.5 0.5 0.5" position="0 1 0" rotation="0 0 0" 
+                material="color: #FFF; side: double; opacity: 1;" ></a-mixin>
+                
+                <img id="northsea" src="img/flat/northsea-sky.jpg">
+                <img id="p1" src="img/flat/coherent-labs-home-thumb.png">
+                <img id="p2" src="img/flat/coherent-labs-hummingbird-thumb.png">
+                <img id="p3" src="img/flat/coherent-labs-coherent-gt-thumb.png">
+                <img id="p4" src="img/flat/coherent-labs-coherent-gt-or-hummingbird-thumb.png">
+                <img id="p5" src="img/flat/coherent-labs-designers-thumb.png">
+                <img id="p6" src="img/flat/coherent-labs-developers-thumb.png">
+                <img id="p7" src="img/flat/coherent-labs-technical-directors-thumb.png">
+                <img id="p8" src="img/flat/coherent-labs-request-demo-thumb.png">
+            </a-assets>
+            
+            <a-entity class="wall" mixin="cwall" rotation="0 195 0" material="src: #p1;"></a-entity>
+            
+            <a-entity class="wall" mixin="cwall" rotation="0 155 0" position="0 -0.3 0" material="src: #p2;"></a-entity>
+            <a-entity class="wall" mixin="cwall" rotation="0 155 0" position="0 1 0" material="src: #p3;"></a-entity>
+            <a-entity class="wall" mixin="cwall" rotation="0 155 0" position="0 2.3 0" material="src: #p4;"></a-entity>
+            
+            <a-entity class="wall" mixin="cwall" rotation="0 115 0" position="0 -0.3 0" material="src: #p5;"></a-entity>
+            <a-entity class="wall" mixin="cwall" rotation="0 115 0" position="0 1 0" material="src: #p6;"></a-entity>
+            <a-entity class="wall" mixin="cwall" rotation="0 115 0" position="0 2.3 0" material="src: #p7;"></a-entity>
+            
+            <a-entity class="wall" mixin="cwall" rotation="0 75 0" material="src: #p8;"></a-entity>
+            
+            <a-sky src="#northsea" color="#FFF"></a-sky>
+            
+            <a-camera position="0 1.0 0" rotation="0 0 0">
+                <a-cursor color="#4CC3D9" fuse="true"></a-cursor>
+            </a-camera>
+            
+        </a-scene>
+    </body>
+</html>
