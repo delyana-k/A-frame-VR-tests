@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deli's VR Flat Website - Rotate the Wall and select item</title>
+        <script src="//aframe.io/releases/0.8.2/aframe.min.js"></script>
+        <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.0/dist/aframe-extras.min.js"></script>
+    </head>
+    <body>
+        <script>
+        /*AFRAME.registerComponent('set-sky', {
+          schema: {default: ''},
+          init() {
+            const sky = document.querySelector('a-sky');
+            this.el.addEventListener('click', () => {
+                sky.setAttribute('src', this.data);
+                sky.setAttribute('color', '#FFFFFF');
+            });
+          }
+        });*/
+        AFRAME.registerComponent('left-trackpad-listener', {
+          init: function () {
+            var el = this.el;
+            var wall = document.getElementById('wrapper');
+            el.addEventListener('trackpaddown', function (evt) {
+                wall.setAttribute('material', 'color', '#009999');
+                currentPosition = wall.getAttribute('rotation');
+                //wall.setAttribute('rotation', '0 -20 0'); // this works;
+                //wall.setAttribute('rotation', 'y', currentPosition.y + 10); // this works but resets x and z
+                //s = '';
+                //wall.setAttribute('rotation', s.concat(currentPosition.x, ' ', currentPosition.y + 10, ' ', currentPosition.z)); // this is stupid
+                //var newPosition = new THREE.Vector3( currentPosition.x, currentPosition.y + 10, currentPosition.z ); // this works, but why create a new object
+                //wall.setAttribute('rotation', newPosition);
+                currentPosition.y = currentPosition.y + 10; // this works
+                wall.setAttribute('rotation', currentPosition);
+                // console.log('left trackpad down');
+            });
+          }
+        });
+        AFRAME.registerComponent('right-trackpad-listener', {
+          init: function () {
+            var el = this.el;
+            var wall = document.getElementById('wrapper');
+            el.addEventListener('trackpaddown', function (evt) {
+                wall.setAttribute('material', 'color', '#990099');
+                currentPosition = wall.getAttribute('rotation');
+                currentPosition.y = currentPosition.y - 10;
+                wall.setAttribute('rotation', currentPosition);
+                // console.log('right trackpad down');
+            });
+          }
+        });
+        AFRAME.registerComponent('collider-check', {
+          dependencies: ['raycaster'],
+          init: function () {
+            this.el.addEventListener('raycaster-intersected', function () {
+              console.log('Player hit something!');
+            });
+          }
+        });
+        AFRAME.registerComponent('zoom-element', {
+          schema: {default: '#C00'},
+          init: function () {
+            var el = this.el;
+            console.log(this.data);
+            el.addEventListener('click', () => {
+                el.setAttribute('material','src', '');
+                el.setAttribute('material','color', this.data);
+                console.log('zoom-element click');
+            });
+          }
+        });
+        </script>
+        <a-scene inspector="//unpkg.com/aframe-inspector@0.8.x/dist/aframe-inspector.min.js">
+            
+            <a-assets>
+                <a-mixin id="cwall" 
+                geometry="height: 0.4; primitive: cylinder; radius: 1; segmentsRadial: 48; 
+                          thetaStart: 0; thetaLength: -30; openEnded: true" 
+                scale="0.99 0.99 0.99" position="0 1 0" rotation="0 0 0" 
+                material="color: #FFF; side: double; opacity: 1;"></a-mixin>
+                
+                <img id="northsea" src="img/flat/northsea-sky.jpg">
+                <img id="p1" src="img/flat/coherent-labs-home-thumb.png">
+                <img id="p2" src="img/flat/coherent-labs-hummingbird-thumb.png">
+                <img id="p3" src="img/flat/coherent-labs-coherent-gt-thumb.png">
+                <img id="p4" src="img/flat/coherent-labs-coherent-gt-or-hummingbird-thumb.png">
+                <img id="p5" src="img/flat/coherent-labs-designers-thumb.png">
+                <img id="p6" src="img/flat/coherent-labs-developers-thumb.png">
+                <img id="p7" src="img/flat/coherent-labs-technical-directors-thumb.png">
+                <img id="p8" src="img/flat/coherent-labs-request-demo-thumb.png">
+                
+                <img id="lemnos" src="img/lemnos-sky-4000.jpg">
+                <img id="morro" src="img/morrorock-sky.jpg">
+                <img id="tiburon" src="img/tiburon-sky.jpg">
+            </a-assets>
+            
+            <a-entity id="wrapper" 
+                      geometry="primitive: cylinder; radius: 1; height: 1.5; radiusTop: 1; radiusBottom: 1; segmentsRadial: 48; 
+                                thetaStart: 40; thetaLength: 160; openEnded: true" 
+                      material="color: #666; side: double; opacity: 1;" 
+                      scale="1 1 1" position="0 1.2 0" rotation="0 0 0" >
+                
+                <a-entity class="ray" mixin="cwall" rotation="0 195 0" position="0 0.0 0" material="src: #p1;" set-sky="#northsea" zoom-element="#009999"></a-entity>
+
+                <a-entity class="ray" mixin="cwall" rotation="0 155 0" position="0 -0.5 0" material="src: #p2;" set-sky="#lemnos" zoom-element="#990099"></a-entity>
+                <a-entity class="ray" mixin="cwall" rotation="0 155 0" position="0 0.0 0" material="src: #p3;" set-sky="#lemnos" zoom-element="#990099"></a-entity>
+                <a-entity class="ray" mixin="cwall" rotation="0 155 0" position="0 0.5 0" material="src: #p4;" set-sky="#lemnos" zoom-element="#990099"></a-entity>
+
+                <a-entity class="ray" mixin="cwall" rotation="0 115 0" position="0 -0.5 0" material="src: #p5;" set-sky="#morro" zoom-element="#009999"></a-entity>
+                <a-entity class="ray" mixin="cwall" rotation="0 115 0" position="0 0.0 0" material="src: #p6;" set-sky="#morro" zoom-element="#009999"></a-entity>
+                <a-entity class="ray" mixin="cwall" rotation="0 115 0" position="0 0.5 0" material="src: #p7;" set-sky="#morro" zoom-element="#009999"></a-entity>
+
+                <a-entity class="ray" mixin="cwall" rotation="0 75 0"  position="0 0.0 0" material="src: #p8;" set-sky="#tiburon" zoom-element="#990099"></a-entity>
+            </a-entity>
+            
+            <!-- raycasters -->
+            <a-entity id="player" collider-check>
+                <a-entity laser-controls="hand: right" position="0 1.6 0" raycaster="showLine: true; far: 100; objects: .ray;" line="color: #990099; opacity: 0.75"></a-entity>
+                <a-entity laser-controls="hand: left" position="0 1.6 0" raycaster="showLine: true; far: 100; objects: .ray;" line="color: #009999; opacity: 0.75"></a-entity>
+            </a-entity>
+            
+            <!-- vive control entities; default is left controller -->
+            <a-entity vive-controls left-trackpad-listener hand-controls="left"></a-entity>
+            <a-entity vive-controls right-trackpad-listener hand-controls="right"></a-entity>
+            
+            <a-sky src="#northsea" color="#FFF"></a-sky>
+            
+            <!--a-camera position="0 1.5 0" rotation="0 0 0" scale="1 1 1">
+                <a-cursor color="#4CC3D9" fuse="true"></a-cursor>
+            </a-camera-->            
+
+            <a-entity position="0 1.6 0" camera look-controls wasd-controls></a-entity>
+            
+        </a-scene>
+    </body>
+</html>
